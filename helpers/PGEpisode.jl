@@ -11,10 +11,10 @@ mutable struct PGEpisode{S<:Real, A<:Real, R<:Real}
             γ=0.99, nstep=15, λ=0.97) where {S<:Real, A<:Real, R<:Real}
         new(
             0,
-            zeros(S, obssize, maxsize+1),
-            zeros(A, actiondim, maxsize+1),
-            zeros(R, maxsize+1),
-            zeros(R, maxsize+1),
+            zeros(S, obssize, maxsize),
+            zeros(A, actiondim, maxsize),
+            zeros(R, maxsize),
+            zeros(R, maxsize),
             γ,
             nstep,
             λ
