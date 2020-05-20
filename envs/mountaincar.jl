@@ -35,8 +35,10 @@ function step!(env::MountainCar{S, A, R}, action::A) where {S, A, R}
     if p == -1.2 && v < 0.0
         v = 0.0
     end
+    d = p >= 0.5
+    r = d ? zero(R) : -one(R)
     env.current .= p, v
-    return env.current, -one(R), p >= 0.5
+    return env.current, r, d
 end
 
 step!(env::MountainCarContinuous{S, A, R}, action::Vector{A}) where {S, A, R} = step!(env, action[1])
@@ -49,7 +51,7 @@ function step!(env::MountainCarContinuous{S, A, R}, action::A) where {S, A, R}
         v = 0.0
     end
     d = p >= 0.45
-    r = d ? 100.0 : 0.0 - (action ^ 2.0) * 0.1
+    r = (d ? 100.0 : 0.0) - (action ^ 2.0) * 0.1
     env.current .= p, v
     return env.current, R(r), d
 end
