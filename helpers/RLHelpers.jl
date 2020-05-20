@@ -2,7 +2,7 @@ module RLHelpers
     import Distributions.sample
     import Base.append!
     using Statistics: mean, std
-    using Flux: Chain, Dense, Zygote.Params, Zygote.@adjoint
+    using Flux: Zygote.@adjoint
 
     include("../helpers/discount.jl")
     include("../helpers/ReplayMemory.jl")
