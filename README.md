@@ -3,7 +3,7 @@
 ## Original Sources
 https://github.com/MicrosoftLearning/Reinforcement-Learning-Explained  
 https://github.com/udacity/deep-reinforcement-learning  
-https://spinningup.openai.com/en/latest/algorithms/  
+https://spinningup.openai.com/en/latest/user/algorithms.html  
 https://github.com/openai/spinningup/blob/master/spinup/algos/pytorch/  
 https://github.com/dennybritz/reinforcement-learning  
 
