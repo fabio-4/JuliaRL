@@ -4,11 +4,11 @@ module RLHelpers
     using Statistics: mean, std
     using Flux: Zygote.@adjoint
 
-    include("../helpers/discount.jl")
-    include("../helpers/ReplayMemory.jl")
-    include("../helpers/PGReplayMemory.jl")
-    include("../helpers/PGEpisode.jl")
-    include("../helpers/UDRLMemory.jl")
+    include("discount.jl")
+    include("ReplayMemory.jl")
+    include("PGReplayMemory.jl")
+    include("PGEpisode.jl")
+    include("UDRLMemory.jl")
 
     macro loop(n, ex)
         :(for i = 1:$(esc(n))
