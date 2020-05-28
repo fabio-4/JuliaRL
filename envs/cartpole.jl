@@ -24,7 +24,7 @@ end
 
 CartPoleContinuous() = CartPoleContinuous{Float32}()
 
-step!(env::CartPole, action::T) where T <: Integer = step!(env, env.actionspace.actions[action])
+step!(env::CartPole, action::Integer) = step!(env, env.actionspace.actions[action])
 step!(env::CartPoleContinuous{S, A, R}, action::Vector{A}) where {S, A, R} = step!(env, action[1])
 function step!(env::Union{CartPole{S, A, R}, CartPoleContinuous{S, A, R}}, action::A) where {S, A, R}
     x, ẋ, θ, θ̇ = env.current

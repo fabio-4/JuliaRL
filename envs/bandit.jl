@@ -13,10 +13,10 @@ end
 
 Bandit() = Bandit{Int64, Float64}()
 
-function step!(env::Bandit, action::T) where T <: Integer
+function step!(env::Bandit, action::Integer)
     reward = env.rwdparams[action, 1] + env.rwdparams[action, 2] * randn(eltype(env.rwdparams))
     regret = abs(env.optsol - env.rwdparams[action, 1])
     return reward, regret
 end
 
-reset!(env::Bandit) = nothing
+reset!(::Bandit) = nothing

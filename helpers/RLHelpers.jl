@@ -38,7 +38,7 @@ module RLHelpers
         end
     end
 
-    function softupdate!(dst::A, src::A, τ=T(1f-2)) where {T, N, A <: AbstractArray{T, N}}
+    function softupdate!(dst::A, src::A, τ=T(1f-2)) where {T, A<:AbstractArray{T}}
         dst .= τ .* src .+ (one(T) - τ) .* dst
     end
     

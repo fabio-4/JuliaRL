@@ -1,4 +1,4 @@
-struct MountainCar{S, A, R} <: DiscEnv{S,A,R}
+struct MountainCar{S, A, R} <: DiscEnv{S, A, R}
     current::Vector{S}
     observationspace::ObservationSpace{Vector{S}}
     actionspace::ActionSpace{A}
@@ -11,7 +11,7 @@ end
 
 MountainCar() = MountainCar{Float32}()
 
-struct MountainCarContinuous{S, A, R} <: ContEnv{S,A,R}
+struct MountainCarContinuous{S, A, R} <: ContEnv{S, A, R}
     current::Vector{S}
     observationspace::ObservationSpace{Vector{S}}
     actionspace::ActionSpace{Tuple{A, A}}
@@ -26,7 +26,7 @@ MountainCarContinuous() = MountainCarContinuous{Float32}()
 
 randpos() = [rand(Uniform(-0.6, -0.4)), 0.0]
 
-step!(env::MountainCar, action::T) where T <: Integer = step!(env, env.actionspace.actions[action])
+step!(env::MountainCar, action::Integer) = step!(env, env.actionspace.actions[action])
 function step!(env::MountainCar{S, A, R}, action::A) where {S, A, R}
     p, v = env.current
     v += action * 0.001 - 0.0025 * cos(3.0*p)

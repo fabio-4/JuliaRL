@@ -1,4 +1,4 @@
-mutable struct SimpleRooms{S<:Integer, A<:Integer, R<:Real} <: DiscEnv{S,A,R}
+mutable struct SimpleRooms{S<:Integer, A<:Integer, R<:Real} <: DiscEnv{S, A, R}
     current::S
     observationspace::ObservationSpace{S}
     actionspace::ActionSpace{Symbol}
@@ -34,7 +34,7 @@ function singleStep(s, a, t, r)
     return s+0, zero(eltype(r))
 end
 
-step!(env::SimpleRooms, action::T) where T <: Integer = step!(env, env.actionspace.actions[action])
+step!(env::SimpleRooms, action::Integer) = step!(env, env.actionspace.actions[action])
 
 function step!(env::SimpleRooms, action::Symbol)
     env.current, r = singleStep(env.current, action, env.transitions, env.rewards)

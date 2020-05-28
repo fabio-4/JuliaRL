@@ -6,8 +6,8 @@ module RLEnvironments
     abstract type DiscEnv{S,A,R} <: Environment{S,A,R} end
     abstract type ContEnv{S,A,R} <: Environment{S,A,R} end
     abstract type DiffEnv{S,A,R} <: Environment{S,A,R} end
-    step!(env::Environment, action) = throw("Method step!($(typeof(env)), action) not implemented")
-    reset!(env::Environment) = throw("Method reset!($(typeof(env))) not implemented")
+    step!(env, action) = throw("Method step!($(typeof(env)), $(typeof(action))) not implemented")
+    reset!(env) = throw("Method reset!($(typeof(env))) not implemented")
 
     #DiscEnv: Vector{A}, ContEnv: Vector{Tuple{A, A}}
     struct ActionSpace{A}
@@ -17,11 +17,11 @@ module RLEnvironments
 
     ActionSpace(n::A) where A <: Real = ActionSpace(collect(one(A):n), Int64(n))
 
-    Base.eltype(::ActionSpace{A}) where A = A
-    Base.eltype(::ActionSpace{Tuple{A, A}}) where A = A
+    Base.eltype(::Type{ActionSpace{A}}) where A = A
+    Base.eltype(::Type{ActionSpace{Tuple{A, A}}}) where A = A
 
     sample(a::ActionSpace) = rand(a.actions)
-    function sample(a::ActionSpace{A}) where {T<:Real, A<:Tuple{T, T}}
+    function sample(a::ActionSpace{Tuple{T, T}}) where T <: Real
         return map(x -> T(rand(Uniform(x[1], x[2]))), a.actions)
     end
 
@@ -30,9 +30,9 @@ module RLEnvironments
         n::Int64
     end
 
-    Base.eltype(::ObservationSpace{S}) where S = S
+    Base.eltype(::Type{ObservationSpace{S}}) where S = S
 
-    function test(f, env::Environment{S,A,R}, maxt=100) where {S,A,R}
+    function test(f, env::Environment{S, A, R}, maxt=100) where {S, A, R}
         reward = zero(R)
         s = reset!(env)
         for _ in 1:maxt
