@@ -17,15 +17,20 @@ module RLEnvironments
 
     ActionSpace(n::A) where A <: Real = ActionSpace(collect(one(A):n), Int64(n))
 
+    Base.eltype(::ActionSpace{A}) where A = A
+    Base.eltype(::ActionSpace{Tuple{A, A}}) where A = A
+
     sample(a::ActionSpace) = rand(a.actions)
     function sample(a::ActionSpace{A}) where {T<:Real, A<:Tuple{T, T}}
-        return map(x -> rand(Uniform(x[1], x[2])), a.actions)
+        return map(x -> T(rand(Uniform(x[1], x[2]))), a.actions)
     end
 
     #n = numstates // n = length(state)
     struct ObservationSpace{S}
         n::Int64
     end
+
+    Base.eltype(::ObservationSpace{S}) where S = S
 
     function test(f, env::Environment{S,A,R}, maxt=100) where {S,A,R}
         reward = zero(R)
