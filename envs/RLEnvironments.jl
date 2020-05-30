@@ -21,7 +21,7 @@ module RLEnvironments
     Base.eltype(::Type{ActionSpace{Tuple{A, A}}}) where A = A
 
     sample(a::ActionSpace) = rand(a.actions)
-    function sample(a::ActionSpace{Tuple{T, T}}) where T <: Real
+    function sample(a::ActionSpace{Tuple{T, T}}) where T <: AbstractFloat
         return map(x -> T(rand(Uniform(x[1], x[2]))), a.actions)
     end
 
