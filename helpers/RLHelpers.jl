@@ -43,6 +43,6 @@ module RLHelpers
     end
     
     export @loop, gather, softupdate!, loglikelihood
-    export ReplayMemory, PGReplayMemory, PGEpisode, UDRLMemory, command, insert!, 
-        append!, finish!, sample, discount!, nstepr!, GAEλ!, adv!, batch
+    export ReplayMemory, PGReplayMemory, PGEpisode, UDRLMemory, command, 
+        finish!, sample, discount!, nstepr!, GAEλ!, adv!, batch
 end

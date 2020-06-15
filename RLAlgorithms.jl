@@ -1,18 +1,11 @@
 module RLAlgorithms
     include("envs/RLEnvironments.jl")
     include("helpers/RLHelpers.jl")
-    using .RLHelpers
-    using .RLEnvironments
+    using Reexport
+    @reexport using .RLHelpers
+    @reexport using .RLEnvironments
     using StatsBase: sample, Weights
 
-    export Environment, DiscEnv, ContEnv, DiffEnv, step!, reset!, test
-    export Bandit, SimpleRooms, CartPole, CartPoleContinuous, Pendulum, 
-        MountainCar, MountainCarContinuous
-
-    export @loop, gather, softupdate!, loglikelihood
-    export ReplayMemory, PGReplayMemory, PGEpisode, UDRLMemory, command, insert!, 
-        append!, finish!, sample, discount!, nstepr!, GAEλ!, adv!, batch
-    
     export episode!, episodes!
 
     function episodes!(f, memory, env, steps, maxt)
