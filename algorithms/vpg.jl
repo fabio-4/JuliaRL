@@ -37,7 +37,7 @@ function run!(policy, popt, value, vopt, env;
             end
             update!(popt, policyps, pgs)
 
-            @loop vtrainiters Flux.train!(valueps, [(s, r)], vopt) do s, r
+            Flux.train!(valueps, Iterators.repeated((s, r), vtrainiters), vopt) do s, r
                 return Flux.mse(vec(value(s)), r)
             end
         end
