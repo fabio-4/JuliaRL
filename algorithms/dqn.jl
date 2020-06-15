@@ -15,9 +15,9 @@ function run!(model, opt, env;
     rewards = zeros(Float32, epochs)
     target = deepcopy(model)
     memory = ReplayMemory{Float32, Int64, Float32}(
-        env.observationspace.n, 1, 10*steps, batchsize
+        length(env.observationspace), 1, 10*steps, batchsize
     )
-    nA = env.actionspace.n
+    nA = length(env.actionspace)
     ps = params(model)
 
     for i in 1:epochs
@@ -44,8 +44,8 @@ end
 env = CartPole{Float32}()
 
 model = Chain(
-    Dense(env.observationspace.n, 32, relu), 
-    Dense(32, env.actionspace.n)
+    Dense(length(env.observationspace), 32, relu), 
+    Dense(32, length(env.actionspace))
 )
 
 r = run!(model, ADAM(), env)

@@ -50,9 +50,9 @@ function run!(model, opt, env, maxreward;
         best=25, trajs=50, trainiters=200, ϵ=1.0)
     rewards = zeros(Float32, epochs)
     memory = UDRLMemory{Float32, Int64, Float32}(
-        env.observationspace.n, maxreward, 10*trajs, minibatchsize
+        length(env.observationspace), maxreward, 10*trajs, minibatchsize
     )
-    nA = env.actionspace.n
+    nA = length(env.actionspace)
     ps = params(model)
 
     for i in 1:epochs
@@ -75,7 +75,7 @@ end
 
 env = CartPole{Float32}()
 
-model = BehaviorModel(env.observationspace.n, env.actionspace.n)
+model = BehaviorModel(length(env.observationspace), length(env.actionspace))
 
 r = run!(model, ADAM(0.01), env, 100f0)
 plt = plot(r, labels="Reward")

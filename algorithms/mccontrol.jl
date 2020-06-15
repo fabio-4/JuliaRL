@@ -43,7 +43,7 @@ function run!(Q, env; epochs=20, maxt=100, ϵ=0.1, α=0.5, γ=0.99)
 end
 
 env = SimpleRooms{Int64, Int64, Float64}()
-Q = zeros(env.actionspace.n, env.observationspace.n)
+Q = zeros(length(env.actionspace), length(env.observationspace))
 
 r, s = run!(Q, env)
 plt = plot([r s], labels=["Reward" "Steps"], color=[:red :blue], layout=(2, 1))

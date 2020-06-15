@@ -71,7 +71,7 @@ function run!(sharedpolicy, opt, sharedenv; epochs=500, maxt=100, γ=99f-2)
         policy = deepcopy(sharedpolicy)
         ps = params(policy)
         gs = Grads(IdDict())
-        episode = PGEpisode{Float32, Int64, Float32}(env.observationspace.n, 1, maxt, γ=γ)
+        episode = PGEpisode{Float32, Int64, Float32}(length(env.observationspace), 1, maxt, γ=γ)
 
         for i in 1:epochs
             episode!(policy, episode, env, maxt, rng)
@@ -101,8 +101,8 @@ end
 env = CartPole{Float32}()
 
 sharedpolicy = Policy(
-    Dense(env.observationspace.n, 64, relu),
-    Dense(64, env.actionspace.n),
+    Dense(length(env.observationspace), 64, relu),
+    Dense(64, length(env.actionspace)),
     Dense(64, 1)
 )
 
@@ -135,7 +135,7 @@ function update!(opt, m1, m2, gs)
 end
 
 sharedinitgs = (gradient(sharedpolicy) do p
-    m = p(zeros(Float32, env.observationspace.n))
+    m = p(zeros(Float32, length(env.observationspace)))
     return Flux.mse(m[1], 0f0) + Flux.mse(m[2], 0f0)
 end)[1]
 

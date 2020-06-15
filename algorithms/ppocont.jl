@@ -33,7 +33,7 @@ function run!(policy, popt, value, vopt, env;
         ϵ=2f-1, γ=99f-2, λ=97f-2, targetkl=15f-3)
     rewards = zeros(Float32, epochs)
     memory = PGReplayMemory{Float32, Float32, Float32, Float32}(
-        env.observationspace.n, env.actionspace.n, steps, steps, γ=γ, λ=λ
+        length(env.observationspace), length(env.actionspace), steps, steps, γ=γ, λ=λ
     )
     policyps = params(policy)
     valueps = params(value)
@@ -69,14 +69,14 @@ env = CartPoleContinuous{Float32}()
 
 policy = Policy(
     Chain(
-        Dense(env.observationspace.n, 32, tanh), 
-        Dense(32, env.actionspace.n)
+        Dense(length(env.observationspace), 32, tanh), 
+        Dense(32, length(env.actionspace))
     ), 
     5f-1, 
-    env.actionspace.n
+    length(env.actionspace)
 )
 value = Chain(
-    Dense(env.observationspace.n, 32, tanh), 
+    Dense(length(env.observationspace), 32, tanh), 
     Dense(32, 1)
 )
 

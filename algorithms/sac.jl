@@ -34,7 +34,7 @@ function run!(actor, aopt, critic, copt, env;
     rewards = zeros(Float32, epochs)
     critictar = deepcopy(critic)
     memory = ReplayMemory{Float32, Float32, Float32}(
-        env.observationspace.n, env.actionspace.n, 10*steps, batchsize
+        length(env.observationspace), length(env.actionspace), 10*steps, batchsize
     )
     actorps = params(actor)
     criticps = params(critic)
@@ -71,8 +71,8 @@ function run!(actor, aopt, critic, copt, env;
 end
 
 env = CartPoleContinuous{Float32}()
-aDim = env.actionspace.n
-oDim = env.observationspace.n
+aDim = length(env.actionspace)
+oDim = length(env.observationspace)
 
 actor = Actor(
     Chain(Dense(oDim, 32, relu), Dense(32, 16, relu)),

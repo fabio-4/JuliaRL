@@ -61,10 +61,10 @@ struct ObservationSpace{S}
     n::Int64
 end
 
-# DiscEnv: Vector{A} (different actions), n = length(actions) 
-# ContEnv: Vector{Tuple{A, A}} (action ranges), n = actiondim
+# DiscEnv: Vector{A} (different actions), 
+# ContEnv: Vector{Tuple{A, A}} (action ranges),
+# n = length(actionspace)
 struct ActionSpace{A}
     actions::Vector{A}
-    n::Int64
 end
 ```

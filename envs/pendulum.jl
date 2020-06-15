@@ -5,7 +5,7 @@ struct Pendulum{S, A, R} <: ContEnv{S, A, R}
     actionspace::ActionSpace{Tuple{A, A}}
     function Pendulum{T}() where T <: AbstractFloat
         observationspace = ObservationSpace{Vector{T}}(3)
-        actionspace = ActionSpace([(-one(T), one(T))], 1)
+        actionspace = ActionSpace([(-one(T), one(T))])
         state = [rand(Uniform(-π, π)), rand(Uniform(-1.0, 1.0))]
         current = [cos(state[1]), sin(state[1]), state[2]]
         new{T, T, T}(state, current, observationspace, actionspace)

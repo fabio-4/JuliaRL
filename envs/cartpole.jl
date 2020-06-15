@@ -4,7 +4,7 @@ struct CartPole{S, A, R} <: DiscEnv{S, A, R}
     actionspace::ActionSpace{A}
     function CartPole{T}() where T <: AbstractFloat
         observationspace = ObservationSpace{Vector{T}}(4)
-        actionspace = ActionSpace([-one(T), one(T)], 2)
+        actionspace = ActionSpace([-one(T), one(T)])
         new{T, T, T}(rand(Uniform(-0.05, 0.05), 4), observationspace, actionspace)
     end
 end
@@ -17,7 +17,7 @@ struct CartPoleContinuous{S, A, R} <: ContEnv{S, A, R}
     actionspace::ActionSpace{Tuple{A, A}}
     function CartPoleContinuous{T}() where T <: AbstractFloat
         observationspace = ObservationSpace{Vector{T}}(4)
-        actionspace = ActionSpace([(-one(T), one(T))], 1)
+        actionspace = ActionSpace([(-one(T), one(T))])
         new{T, T, T}(rand(Uniform(-0.05, 0.05), 4), observationspace, actionspace)
     end
 end

@@ -6,7 +6,7 @@ mutable struct SimpleRooms{S<:Integer, A<:Integer, R<:Real} <: DiscEnv{S, A, R}
     rewards::Vector{R}
     function SimpleRooms{S, A, R}() where {S<:Integer, A<:Integer, R<:Real}
         observationspace = ObservationSpace{S}(16)
-        actionspace = ActionSpace([:up, :down, :left, :right], 4)
+        actionspace = ActionSpace([:up, :down, :left, :right])
         transitions = Dict{S, Vector{S}}(
             1 => [2, 5], 2 => [1, 3, 6], 3 => [2, 4, 7], 4 => [3, 8],
             5 => [1, 6, 9], 6 => [2, 5], 7 => [3, 8], 8 => [4, 7, 12],

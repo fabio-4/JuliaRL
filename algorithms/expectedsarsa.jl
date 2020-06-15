@@ -11,7 +11,7 @@ end
 function run!(Q, env; epochs=20, ϵ=0.005, α=0.5, γ=0.99)
     rewards = zeros(epochs)
     steps = zeros(Int64, epochs)
-    numactions = env.actionspace.n
+    numactions = length(env.actionspace)
 
     for i in 1:epochs
         done = false
@@ -32,7 +32,7 @@ function run!(Q, env; epochs=20, ϵ=0.005, α=0.5, γ=0.99)
 end
 
 env = SimpleRooms{Int64, Int64, Float64}()
-Q = zeros(env.actionspace.n, env.observationspace.n)
+Q = zeros(length(env.actionspace), length(env.observationspace))
 
 r, s = run!(Q, env)
 plt = plot([r s], labels=["Reward" "Steps"], color=[:red :blue], layout=(2, 1))

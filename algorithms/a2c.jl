@@ -14,7 +14,7 @@ Flux.@functor Policy
 
 function run!(policy, opt, env; epochs=500, maxt=100, γ=99f-2)
     rewards = zeros(Float32, div(epochs, 5))
-    episode = PGEpisode{Float32, Int64, Float32}(env.observationspace.n, 1, maxt, γ=γ)
+    episode = PGEpisode{Float32, Int64, Float32}(length(env.observationspace), 1, maxt, γ=γ)
 
     for i in 1:epochs
         episode!(episode, env, maxt) do s
@@ -36,8 +36,8 @@ end
 env = CartPole{Float32}()
 
 policy = Policy(
-    Dense(env.observationspace.n, 32, relu), 
-    Dense(32, env.actionspace.n),
+    Dense(length(env.observationspace), 32, relu), 
+    Dense(32, length(env.actionspace)),
     Dense(32, 1)
 )
 

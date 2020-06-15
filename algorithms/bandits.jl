@@ -98,7 +98,7 @@ function run!(p, env::Bandit{A, R}; steps=100) where {A, R}
 end
 
 function getpolicies(env::Bandit{A, R}) where {A, R}
-    n = env.actionspace.n
+    n = length(env.actionspace)
     return [Greedy{R}(n), EpsGreedy{R}(n, 0.03), OptGreedy{R}(n, 1.0), 
         RoundRobin{R}(n), UCB{R}(n), ThompsonBeta(n)]
 end

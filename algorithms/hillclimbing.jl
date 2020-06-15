@@ -38,7 +38,7 @@ function run!(W, env; epochs=200, maxt=100, noise=1f-2, γ=99f-2)
 end
 
 env = CartPole{Float32}()
-W = 1f-4 * randn(Float32, env.actionspace.n, env.observationspace.n)
+W = 1f-4 * randn(Float32, length(env.actionspace), length(env.observationspace))
 
 r, s = run!(W, env)
 plt = plot([r s], labels=["Reward" "Steps"], color=[:red :blue], layout=(2, 1))

@@ -6,17 +6,17 @@ module RLEnvironments
     abstract type DiscEnv{S,A,R} <: Environment{S,A,R} end
     abstract type ContEnv{S,A,R} <: Environment{S,A,R} end
     abstract type DiffEnv{S,A,R} <: Environment{S,A,R} end
-    step!(env, action) = throw("Method step!($(typeof(env)), $(typeof(action))) not implemented")
-    reset!(env) = throw("Method reset!($(typeof(env))) not implemented")
+    function step! end
+    function reset! end
 
     #DiscEnv: Vector{A}, ContEnv: Vector{Tuple{A, A}}
     struct ActionSpace{A}
         actions::Vector{A}
-        n::Int64
     end
 
-    ActionSpace(n::A) where A <: Real = ActionSpace(collect(one(A):n), Int64(n))
+    ActionSpace(n::A) where A <: Real = ActionSpace(collect(one(A):n))
 
+    Base.length(a::ActionSpace) = length(a.actions)
     Base.eltype(::Type{ActionSpace{A}}) where A = A
     Base.eltype(::Type{ActionSpace{Tuple{A, A}}}) where A = A
 
@@ -30,6 +30,7 @@ module RLEnvironments
         n::Int64
     end
 
+    Base.length(o::ObservationSpace) = o.n
     Base.eltype(::Type{ObservationSpace{S}}) where S = S
 
     function test(f, env::Environment{S, A, R}, maxt=100) where {S, A, R}

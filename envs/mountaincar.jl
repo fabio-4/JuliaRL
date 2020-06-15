@@ -4,7 +4,7 @@ struct MountainCar{S, A, R} <: DiscEnv{S, A, R}
     actionspace::ActionSpace{A}
     function MountainCar{T}() where T <: AbstractFloat
         observationspace = ObservationSpace{Vector{T}}(2)
-        actionspace = ActionSpace(collect(T, -1:1), 3)
+        actionspace = ActionSpace(collect(T, -1:1))
         new{T, T, T}(randpos(), observationspace, actionspace)
     end
 end
@@ -17,7 +17,7 @@ struct MountainCarContinuous{S, A, R} <: ContEnv{S, A, R}
     actionspace::ActionSpace{Tuple{A, A}}
     function MountainCarContinuous{T}() where T <: AbstractFloat
         observationspace = ObservationSpace{Vector{T}}(2)
-        actionspace = ActionSpace([(-one(T), one(T))], 1)
+        actionspace = ActionSpace([(-one(T), one(T))])
         new{T, T, T}(randpos(), observationspace, actionspace)
     end
 end

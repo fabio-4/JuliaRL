@@ -34,8 +34,8 @@ end
 env = Pendulum{Float32}()
 
 model = Chain(
-    Dense(env.observationspace.n, 32, relu), 
-    Dense(32, env.actionspace.n, tanh)
+    Dense(length(env.observationspace), 32, relu), 
+    Dense(32, length(env.actionspace), tanh)
 )
 
 r = run!(model, env)
@@ -57,7 +57,7 @@ function setweights!(model, W)
     end
 end
 
-numparams = (env.observationspace.n + 1) * 32 + (32 + 1) * env.actionspace.n
+numparams = (length(env.observationspace) + 1) * 32 + (32 + 1) * length(env.actionspace)
 
 Rs = map(Wi -> (setweights!(model, Wi); episode(model, env, maxt, γ)), Ws)
 =#
