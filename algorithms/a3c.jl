@@ -12,7 +12,7 @@ using StatsBase: sample, Weights
 import.Base: +
 
 function +(x::Grads, y::Grads)
-    return Grads(IdDict(k => (get(x.grads, k, nothing) + y.grads[k]) for k in keys(y.grads)))
+    return Grads(IdDict(p => (get(x.grads, p, nothing) + y.grads[p]) for p in y.params), y.params)
 end
 +(::Nothing, y) = y
 
@@ -62,7 +62,7 @@ end
 function run!(sharedpolicy, opt, sharedenv; epochs=500, maxt=100, γ=99f-2)
     rewards = zeros(Float32, div(epochs, 5))
     sharedrng = [MersenneTwister(rand(1:100)) for _ in 1:nthreads()]
-    sharedlockobj = Mutex()
+    sharedlockobj = ReentrantLock()
     sharedps = params(sharedpolicy)
 
     @threads for _ in 1:nthreads()
@@ -70,7 +70,7 @@ function run!(sharedpolicy, opt, sharedenv; epochs=500, maxt=100, γ=99f-2)
         env = deepcopy(sharedenv)
         policy = deepcopy(sharedpolicy)
         ps = params(policy)
-        gs = Grads(IdDict())
+        gs = Grads(IdDict(), Params())
         episode = PGEpisode{Float32, Int64, Float32}(length(env.observationspace), 1, maxt, γ=γ)
 
         for i in 1:epochs
@@ -85,7 +85,7 @@ function run!(sharedpolicy, opt, sharedenv; epochs=500, maxt=100, γ=99f-2)
                 lock(sharedlockobj)
                 update!(opt, sharedps, ps, gs)
                 unlock(sharedlockobj)
-                gs = Grads(IdDict())
+                gs = Grads(IdDict(), Params())
             end
             if i % 5 == 0
                 ind = div(i, 5)
@@ -110,6 +110,14 @@ r = run!(sharedpolicy, ADAM(0.0015, (0.5, 0.99)), env)
 plt = plot(r, labels="Reward")
 display(plt)
 #savefig(plt, "a3c")
+
+#=
+older Zygote version:
+gs = Grads(IdDict())
+function +(x::Grads, y::Grads)
+    return Grads(IdDict(k => (get(x.grads, k, nothing) + y.grads[k]) for k in keys(y.grads)))
+end
+=#
 
 #=
 +(x::Tuple, y::Tuple) = Tuple([(x[k] + y[k]) for k in keys(x)])
